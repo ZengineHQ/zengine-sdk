@@ -67,5 +67,5 @@ interface CallOptionsWithoutCallback {
 }
 
 interface HasCallback {
-  callback: (...args: any[]) => void
+  callback: (err: Error, ...args: any[]) => void
 }

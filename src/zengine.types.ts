@@ -181,6 +181,7 @@ export interface ZengineFilter {
   prefix?: ZengineFilterPrefix
   attribute?: string
   value?: any
+  filter?: ZengineFilter
 }
 
 export interface ZengineFiltersPanelOptions {

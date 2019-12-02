@@ -35,3 +35,16 @@ export function znMessage (message: string, type: 'info' | 'saved' | 'warning' |
     args: { params: { message, type, duration } }
   })
 }
+
+/**
+ * Displays a modal that allows the user to view and build a data filter.
+ */
+export function znFiltersPanel (options: ZengineFiltersPanelOptions, callback: (err: Error, filter: ZengineFilter) => void): null
+export function znFiltersPanel (options: ZengineFiltersPanelOptions): Promise<ZengineFilter>
+
+export function znFiltersPanel (options: ZengineFiltersPanelOptions, callback?: (err: Error, filter: ZengineFilter) => void): Promise<ZengineFilter> | null {
+  return callback
+    ? rpcClient.call({ method: 'filtersPanel', args: { options }, callback })
+    : rpcClient.call({ method: 'filtersPanel', args: { options } })
+}
+
