@@ -1,7 +1,8 @@
 import { ZengineContextData } from './zengine.types'
-import PostRPCClient from '@zenginehq/post-rpc-client'
+import Client from '@zenginehq/post-rpc-client'
+import { PostRPCClient } from './external.types'
 
-export const rpcClient = new PostRPCClient(document.location.ancestorOrigins[0])
+export const rpcClient: PostRPCClient = new Client(document.location.ancestorOrigins[0])
 
 rpcClient.logging(false)
 rpcClient.start()
