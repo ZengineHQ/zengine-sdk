@@ -173,13 +173,52 @@ export interface ZengineDataView {
   sortByFields: string[]
 }
 
+export type ZengineFilterPrefix = '' | 'not' | 'min' | 'max' | 'not-contains' | 'contains' | 'starts-with' | 'ends-with' | 'not-validates'
+
 export interface ZengineFilter {
   and?: ZengineFilter[]
   or?: ZengineFilter[]
-  prefix?: '' | 'not' | 'min' | 'max' | 'not-contains' | 'contains' | 'starts-with' | 'ends-with' | 'not-validates'
+  prefix?: ZengineFilterPrefix
   attribute?: string
   value?: any
 }
+
+export interface ZengineFiltersPanelOptions {
+  formId: number
+  filter: ZengineFilter
+  /**
+   * Whether to allow subfiltering on related fields. Defaults to `true`
+   */
+  subfilters: boolean
+  /**
+   * defaults to `['and', 'or']` but can be `['and']` or `['or']`, as well
+   */
+  operators: ('and' | 'or')[]
+  /**
+   * Whether to allow dynamic values such as `logged-in-user`. Defaults to `true`
+   */
+  dynamicValues: boolean
+  /**
+   * Whether to allow nested conditions. Defaults to `true`
+   */
+  groups: boolean
+  /**
+   * A list of specific fields to prevent the user from filtering on.
+   * The list can contain an attribute like `'field123'`, where `123` is the ID of a field belonging to the form.
+   * The list can also contain the following attributes: `'folder.id'`, `'createdByUser.id'`, `'created'`, and `'modified'`.
+   */
+  attributeBlacklist: string[]
+  /**
+   * A list of prefixes to prevent the user from filtering on.
+   */
+  prefixBlacklist: ZengineFilterPrefix[]
+  /**
+   * A list of field types to prevent the user from filtering on.
+   */
+  fieldTypeBlacklist: ZengineFieldType[]
+}
+
+export type ZengineFieldType = 'calculated-field' | 'checkbox' | 'country-select' | 'date-picker' | 'dropdown' | 'file-upload' | 'heading' | 'hidden-field' | 'html' | 'link-counter' | 'linked' | 'member' | 'numeric' | 'page-break' | 'radio' | 'spacer' | 'state-select' | 'summary' | 'text' | 'text-area' | 'text-input' | 'year'
 
 export interface ZengineForm {
   canCreateRecords: boolean
