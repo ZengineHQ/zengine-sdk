@@ -53,9 +53,9 @@ export interface PostRPCClient {
 
   logging (enabled: boolean): void
 
-  log (messages: any[], collapse: boolean, color: 'green'): void
+  log (messages: any[], collapse?: boolean, color?: 'green'): void
 
-  logGroup (group: string, messages: any[], color: 'green'): void
+  logGroup (group: string, messages: any[], color?: 'green'): void
 }
 
 type PostRPCRequest = {
