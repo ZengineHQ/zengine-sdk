@@ -1,7 +1,7 @@
 declare module '@zenginehq/post-rpc-client' {
-  export = Client
+  export = PostRPCClient
 
-  class Client {
+  class PostRPCClient {
     constructor(origin: string)
 
     running: boolean
