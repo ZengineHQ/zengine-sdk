@@ -36,12 +36,7 @@ export interface PostRPCClient {
 
   internalErrorResponse (id: number): { jsonrpc: string, id: number, error: { code: number, message: string, data: string } }
 
-  call (details: {
-    method: string
-    args?: any | any[]
-    callback?: (...args: any[]) => void
-    timeout?: number
-  }): Promise<any> | null
+  call <CallOptions extends CallOptionsWithoutCallback> (details: CallOptions | HasCallback): CallOptions extends HasCallback ? null : Promise<any>
 
   timeoutHandler (): void
 
@@ -63,4 +58,14 @@ type PostRPCRequest = {
   method: string
   args: any
   id: number
+}
+
+interface CallOptionsWithoutCallback {
+  method: string
+  args?: any | any[]
+  timeout?: number
+}
+
+interface HasCallback {
+  callback: (...args: any[]) => void
 }
