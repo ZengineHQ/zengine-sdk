@@ -69,3 +69,39 @@ interface CallOptionsWithoutCallback {
 interface HasCallback {
   callback: (err: Error, ...args: any[]) => void
 }
+
+export interface Dimensions {
+  height: number
+  width: number
+}
+
+export interface ContentSizer {
+  updateHandler (dimensions: Dimensions): Dimensions
+  heightMethod: string
+  widthMethod: string
+  observer: MutationObserver
+  auto: boolean
+  currentWidth: number
+  currentHeight: number
+  events: ('animationstart' | 'webkitAnimationStart' | 'animationiteration' | 'webkitAnimationIteration' | 'animationend' | 'webkitAnimationEnd' | 'orientationchange' | 'transitionstart' | 'webkitTransitionStart' | 'MSTransitionStart' | 'oTransitionStart' | 'otransitionstart' | 'transitioniteration' | 'webkitTransitionIteration' | 'MSTransitionIteration' | 'oTransitionIteration' | 'otransitioniteration' | 'transitionend' | 'webkitTransitionEnd' | 'MSTransitionEnd' | 'oTransitionEnd' | 'otransitionend')[]
+
+  measureAndUpdate (): void
+
+  autoSize (): void
+
+  addEventHandlers (): void
+
+  removeEventHandlers (): void
+
+  stopAutoSize (): void
+
+  handleEvent (e: Event): void
+
+  getWidth (method: string): number
+
+  getHeight (method: string): number
+
+  setupMutation (): MutationObserver
+
+  isSizeChanged (originalValue: number, newValue: number, tolerance: number): boolean
+}

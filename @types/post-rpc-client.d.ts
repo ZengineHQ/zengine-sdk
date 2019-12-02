@@ -1,1 +1,1 @@
-declare module '@zenginehq/post-rpc-client';
+declare module '@zenginehq/post-rpc-client'

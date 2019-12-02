@@ -1,3 +1,51 @@
+export interface ZengineHTTPResponse {
+  data: {
+    code: number
+    data: any | any[]
+    limit: number
+    offset: number
+    status: number
+    totalCount: number
+  }
+  status: number
+  headers: {
+    [key: string]: string
+  }
+}
+
+export interface ZengineAPIRequestOptions {
+  method: 'post' | 'get' | 'put' | 'delete'
+  url: string
+  /**
+   * post and put body
+   */
+  data?: any | any[]
+}
+
+export interface ZenginePluginDataCallOptions {
+  namespace: string,
+  method: 'post' | 'get' | 'put' | 'delete',
+  route: string,
+  options: {
+    /**
+     * post and put body goes here
+     */
+    data: any | any[]
+    /**
+     * query params
+     */
+    params: {
+      [key: string]: string | number | boolean
+    }
+    /**
+     * additional headers
+     */
+    headers: {
+      [key: string]: string
+    }
+  }
+}
+
 export interface ZenginePluginView {
   type: string,
   location?: string,
