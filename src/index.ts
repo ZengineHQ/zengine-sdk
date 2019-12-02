@@ -1,6 +1,7 @@
 import { ZengineContextData } from './zengine.types'
 import Client from '@zenginehq/post-rpc-client'
 import { PostRPCClient } from './external.types'
+import { ZengineContextData, ZengineFilter, ZengineFiltersPanelOptions } from './zengine.types'
 
 export const rpcClient: PostRPCClient = new Client(document.location.ancestorOrigins[0])
 
@@ -10,20 +11,22 @@ rpcClient.start()
 /**
  * Get Context Data from Zengine Admin state
  */
-export function znContext (callback?: (context: ZengineContextData) => void): Promise<ZengineContextData> | null {
-  return callback
-    ? rpcClient.call({ method: 'context', callback })
-    : rpcClient.call({ method: 'context' })
+export function znContext (callback: (err: Error, context: ZengineContextData) => void): null
+export function znContext (): Promise<ZengineContextData>
+
+export function znContext (callback?: (err: Error, context: ZengineContextData) => void): Promise<ZengineContextData> | null {
+  return rpcClient.call({ method: 'context', callback })
 }
 
 /**
  * Displays a confirmation dialog with your message and two buttons: Yes and Close
  * Sends a boolean to your promise or callback representing the user's selection
  */
-export function znConfirm (message: string, callback?: () => boolean): Promise<boolean> | null {
-  return callback
-    ? rpcClient.call({ method: 'confirm', args: { message }, callback })
-    : rpcClient.call({ method: 'confirm', args: { message } })
+export function znConfirm (message: string, callback: (err: Error, confirmed: boolean) => void): null
+export function znConfirm (message: string): Promise<boolean>
+
+export function znConfirm (message: string, callback?: (err: Error, confirmed: boolean) => void): Promise<boolean> | null {
+  return rpcClient.call({ method: 'confirm', args: { message }, callback })
 }
 
 /**
