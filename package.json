@@ -1,5 +1,5 @@
 {
-  "name": "zengine-sdk",
+  "name": "@zenginehq/zengine-sdk",
   "version": "0.0.1",
   "description": "Zengine Plugins 2.0 Browser SDK",
   "main": "lib/index.js",
