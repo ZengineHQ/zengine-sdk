@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@zenginehq/post-rpc-client": "^0.9.0",
-    "content-sizer": "github:ZengineHQ/content-sizer"
+    "content-sizer": "github:ZengineHQ/content-sizer",
+    "tslib": "^1.10.0"
   }
 }
