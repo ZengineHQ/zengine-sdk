@@ -1,12 +1,30 @@
 import Client from '@zenginehq/post-rpc-client'
 import Sizer from 'content-sizer'
 import { PostRPCClient, ContentSizer, Dimensions } from './external.types'
-import { ZengineContextData, ZengineFilter, ZengineFiltersPanelOptions, ZengineHTTPResponse, ZenginePluginDataCallOptions, ZengineAPIRequestOptions } from './zengine.types'
+import { ZengineContextData, ZengineFilter, ZengineFiltersPanelOptions, ZengineHTTPResponse, ZenginePluginDataCallOptions, ZengineAPIRequestOptions, ZengineDropdownOptions } from './zengine.types'
 
-export const rpcClient: PostRPCClient = new Client(document.location.ancestorOrigins[0])
+const parentOrigin = (document.location.ancestorOrigins && document.location.ancestorOrigins[0]) || getReferrerOrigin() || 'https://platform.zenginehq.com'
+
+/**
+ * gets the origin from the document's referrer attribute, or returns undefined
+ */
+function getReferrerOrigin (): string | void {
+  if (document.referrer) {
+    const link = document.createElement('a')
+    link.href = document.referrer
+
+    return link.origin || (link.protocol + '//' + link.hostname)
+  }
+}
+
+export const rpcClient: PostRPCClient = new Client(parentOrigin)
 
 rpcClient.logging(false)
 rpcClient.start()
+
+window.addEventListener('beforeunload', () => {
+  rpcClient.call({ method: 'reload-frames' })
+})
 
 /**
  * Get Context Data from Zengine Admin state
@@ -120,7 +138,42 @@ export function znPluginData (options: ZenginePluginDataCallOptions, callback?: 
 
 // export modal', [['options', 'Object']], 'Object', RPC.modalOpenHandler(server), 'Open a Modal');
 
-// export dropdown', [['options', 'Object']], 'Object', RPC.dropdownHandler(server, iframeElement), 'Open a Dropdown');
+export function znOpenDropdown (options: ZengineDropdownOptions) {
+  const {
+    top = 0,
+    right = 0,
+    bottom = 0,
+    left = 0,
+    width = 400,
+    height = 300,
+    events = {},
+    side = 'bottom',
+    context,
+    src
+  } = options
+
+  Object.keys(events).forEach(key => {
+    rpcClient.subscribe(key, events[key])
+  })
+
+  const promise = rpcClient.call({
+    method: 'dropdown',
+    args: {
+      options: {
+        ...options,
+        events: Object.keys(events)
+      }
+    }
+  })
+
+  promise.then(() => {
+    Object.keys(events).forEach(key => {
+      rpcClient.unsubscribe(key)
+    })
+  })
+
+  return promise
+}
 
 // export openTooltip', [['options', 'Object']], 'undefined', RPC.openTooltipHandler(iframeElement), 'Open a Tooltip');
 

@@ -28,7 +28,7 @@ export interface ZenginePluginDataCallOptions {
   route: string,
   options: {
     /**
-     * post and put body goes here
+     * post/put body
      */
     data: any | any[]
     /**
@@ -44,6 +44,33 @@ export interface ZenginePluginDataCallOptions {
       [key: string]: string
     }
   }
+}
+
+export interface ZengineDropdownOptions {
+  top: number
+  right: number
+  bottom: number
+  left: number
+  width: number
+  height: number
+  /**
+   * list of events to listen on
+   */
+  events: { [key: string]: (item: any) => void }
+  /**
+   * Where the dropdown will appear
+   */
+  side: 'top' | 'bottom' | 'left' | 'right'
+  /**
+   * Any seedData to be received by the dropdown when it loads
+   */
+  context: { [key: string]: any }
+  /**
+   * url pathname to open in the dropdown
+   *
+   * Example: '/dropdown.html'
+   */
+  src: string
 }
 
 export interface ZenginePluginView {
