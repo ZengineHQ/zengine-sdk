@@ -23,7 +23,7 @@ rpcClient.logging(false)
 rpcClient.start()
 
 window.addEventListener('beforeunload', () => {
-  rpcClient.call({ method: 'reload-frames' })
+  rpcClient.call({ method: 'reloadFrames' })
 })
 
 /**
