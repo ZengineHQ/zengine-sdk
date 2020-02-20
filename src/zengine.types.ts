@@ -13,6 +13,72 @@ export interface ZengineHTTPResponse {
   }
 }
 
+/**
+ * These operator-prefixed property names can also be used as params to fine-tune your queries:
+ *
+ * `attribute: value` (attribute equals `value`) type: string | number | boolean
+ *
+ * `'not-attribute': value` (attribute does not equal `value`) type: string | number | boolean
+ *
+ * `'contains-attribute': value` (attribute contains `value`) type: string
+ *
+ * `'not-contains-attribute': value` (attribute does not contain `value`) type: string
+ *
+ * `'starts-with-attribute': value` (attribute starts with `value`) type: string
+ *
+ * `'ends-with-attribute': value` (attribute ends with `value`) type: string
+ *
+ * `'min-attribute': value` (attribute is at least `value`) type: number
+ *
+ * `'max-attribute': value` (attribute is no more than `value`) type: number
+ *
+ *
+ * @example
+ * // exclude resources where resource.field123 contains the string 'test'
+ * 'not-contains-field123': 'test'
+ *
+ * // include resources where resource.field123 begins with the string 'test'
+ * 'starts-with-field123': 'test'
+ *
+ * // only get resources where resource.folder.id is 45
+ * 'folder.id': 45
+ *
+ * // query resources where resource.field456 is equal to or greater than 10
+ * 'min-field456': 10
+ */
+export interface ZengineAPIRequestParams {
+  filter?: ZengineFilter
+  isComplete?: boolean
+  /**
+   * resource properties to sort by
+   *
+   * @example ['field123', 'field456']
+   * @example 'folder.id'
+   */
+  sort?: string | string[]
+  limit?: number
+  /**
+   * for pagination of records based on the `limit` param (which defaults to 20)
+   * the first page is either 1 or 0, the second page is 2, and so on...
+   */
+  page?: number
+  direction?: 'asc' | 'desc' | ('asc' | 'desc')[]
+  /**
+   * comma-separated string of resource attributes to be returned with this request
+   * If this param is specified, no other attributes will be included
+   */
+  attributes?: string
+  /**
+   * Any numerical offset or string from the [Olson Database](https://en.wikipedia.org/wiki/Tz_database) or the string 'user' to use the current authenticated user's timezone
+   */
+  timezone?: string
+  /**
+   * comma-separated string listing related resources to be fetched along with this request
+   */
+  related?: string
+  [key: string]: any
+}
+
 export interface ZengineAPIRequestOptions {
   method: 'post' | 'get' | 'put' | 'delete'
   url: string
@@ -20,27 +86,35 @@ export interface ZengineAPIRequestOptions {
    * post and put body
    */
   data?: any | any[]
+  /**
+   * query params
+   */
+  params?: ZengineAPIRequestParams
+  /**
+   * additional headers
+   */
+  headers?: {
+    [key: string]: string
+  }
 }
 
 export interface ZenginePluginDataCallOptions {
-  namespace: string,
-  method: 'post' | 'get' | 'put' | 'delete',
-  route: string,
+  namespace: string
+  method: 'post' | 'get' | 'put' | 'delete'
+  route: string
   options: {
     /**
      * post/put body
      */
-    data: any | any[]
+    data?: any | any[]
     /**
      * query params
      */
-    params: {
-      [key: string]: string | number | boolean
-    }
+    params?: ZengineAPIRequestParams
     /**
      * additional headers
      */
-    headers: {
+    headers?: {
       [key: string]: string
     }
   }
