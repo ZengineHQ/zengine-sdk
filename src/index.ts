@@ -179,4 +179,12 @@ export function znOpenDropdown (options: ZengineDropdownOptions) {
 
 // export closeTooltip', [], 'undefined', RPC.closeTooltipHandler, 'Open a Tooltip');
 
-// export location', [['method', 'string'], ['args', 'Array']], 'Object', RPC.locationHandler, 'Get/set url');
+export const znLocation = {
+  searchParams: (query: string, value: string | number) => rpcClient.call({
+    method: 'location',
+    args: {
+      method: 'searchParams',
+      args: [query, value]
+    }
+  })
+}

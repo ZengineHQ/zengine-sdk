@@ -530,7 +530,7 @@ export interface ZengineField {
       class: null
       cols: null
       currency: null
-      decimal: null
+      decimal: number | null
       displayFields: null
       extensions: null
       filter: null
@@ -567,7 +567,7 @@ export interface ZengineField {
       zipCode: boolean
     }
   }
-  type: string
+  type: ZengineFieldType
 }
 
 export interface ZengineRule {
