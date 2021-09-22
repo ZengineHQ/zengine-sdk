@@ -368,7 +368,7 @@ export interface ZengineFiltersPanelOptions {
   fieldTypeBlacklist: ZengineFieldType[]
 }
 
-export type ZengineFieldType = 'calculated-field' | 'checkbox' | 'country-select' | 'date-picker' | 'dropdown' | 'file-upload' | 'heading' | 'hidden-field' | 'html' | 'link-counter' | 'linked' | 'member' | 'numeric' | 'page-break' | 'radio' | 'spacer' | 'state-select' | 'summary' | 'text' | 'text-area' | 'text-input' | 'year'
+export type ZengineFieldType = 'calculated-field' | 'checkbox' | 'country-select' | 'date-picker' | 'dropdown' | 'file-upload' | 'heading' | 'hidden-field' | 'html' | 'link-counter' | 'linked' | 'member' | 'numeric' | 'page-break' | 'radio' | 'spacer' | 'state-select' | 'summary' | 'text' | 'text-area' | 'text-input' | 'user' | 'year'
 
 export interface ZengineForm {
   canCreateRecords: boolean
@@ -525,11 +525,11 @@ export interface ZengineField {
   settings: {
     properties: {
       aggregation: null
-      calculation: null
+      calculation: string | null
       choices: null
       class: null
       cols: null
-      currency: null
+      currency: ZengineCurrency | null
       decimal: number | null
       displayFields: null
       extensions: null
@@ -654,6 +654,7 @@ export interface ZengineRecordFields {
 
 export type ZengineRecord = ZengineRecordFields & ZengineRecordMetadata
 
+
 export interface ZengineContextData {
   constants: {
     apiUrl: string
@@ -695,4 +696,10 @@ export interface ZengineContextData {
     searchParams: { [key: string]: string | number }
     pathParams: { [key: string]: string }
   }
+}
+export interface ZengineCurrency {
+	id: string
+	currency: string
+	symbol: string,
+	decimals: number
 }
